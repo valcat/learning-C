@@ -6,8 +6,8 @@
 #include <pthread.h>
 
 //Global variables.
-int GiftCount = 26000;
-pthread_mutex_t GiftCount_lock = PTHREAD_MUTEX_INITIALIZER;
+int gift_count = 26000;
+pthread_mutex_t gift_count_lock = PTHREAD_MUTEX_INITIALIZER;
 
 //Decrease number of gifts by subtract 1.
 void* bring_gifts(void* box)
@@ -16,12 +16,12 @@ void* bring_gifts(void* box)
 	int limit = 1000;
 	for (; i < limit; i++) {
 		//Lock the sourse when the process starts to use it. Don't let other processes can take it.
-		pthread_mutex_lock(&GiftCount_lock);
-		GiftCount -= 1;
+		pthread_mutex_lock(&gift_count_lock);
+		gift_count -= 1;
 		//Unlock the sourse after using.
-		pthread_mutex_unlock(&GiftCount_lock);
+		pthread_mutex_unlock(&gift_count_lock);
 	}
-	printf("Gifts - %i\n", GiftCount);
+	printf("Gifts - %i\n", gift_count);
 	
 	return NULL;
 }
@@ -31,7 +31,7 @@ int main(int argc, char const *argv[])
 	pthread_t threads[20];
 	int t = 0;
 	int limit = 20;
-	printf("%i gifts are in the shop.\n", GiftCount);
+	printf("%i gifts are in the shop.\n", gift_count);
 
 	for (; t < limit; t++) {
 		pthread_create(&threads[t], NULL, bring_gifts, NULL);
@@ -44,7 +44,7 @@ int main(int argc, char const *argv[])
 		pthread_join(threads[t], &result);
 	}
 
-	printf("Many customers buy boxes with gifts.\nNow there are just %i gifts in the shop.\n", GiftCount);
+	printf("Many customers buy boxes with gifts.\nNow there are just %i gifts in the shop.\n", gift_count);
 	
 	return 0;
 }
