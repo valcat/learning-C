@@ -12,7 +12,7 @@ void error(char* msg)
 }
 
 //Print a message with word. Pause to skip another thread.
-void* SayWord(void *a)
+void* sayWord(void *a)
 {
 	int i = 0;
 	int limit = 5;
@@ -25,7 +25,7 @@ void* SayWord(void *a)
 }
 
 //Print message with number. Pause to skip another thread.
-void* SayNumber(void *a)
+void* sayNumber(void *a)
 {
 	int i = 0;
 	int limit = 5;
@@ -42,10 +42,10 @@ int main(int argc, char const *argv[])
 	pthread_t first_thread;
 	pthread_t second_thread;
 
-	if (pthread_create (&first_thread, NULL, SayWord, NULL) == -1) {
+	if (pthread_create (&first_thread, NULL, sayWord, NULL) == -1) {
 		error("Can't create first_thread");
 	}
-	if (pthread_create (&second_thread, NULL, SayNumber, NULL) == -1) {
+	if (pthread_create (&second_thread, NULL, sayNumber, NULL) == -1) {
 		error("Can't create second_thread");
 	}
 
